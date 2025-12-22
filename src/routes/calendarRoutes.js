@@ -12,8 +12,14 @@ const asyncHandler = (fn) => (req, res, next) => {
 
 // Apply caching to all GET routes
 // Helper to calculate seconds until next midnight
+// Helper to get current Nepal time
+const getNepalTime = () => {
+    return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kathmandu" }));
+};
+
+// Helper to calculate seconds until next midnight (Nepal Time)
 const getSecondsUntilMidnight = () => {
-    const now = new Date();
+    const now = getNepalTime();
     const midnight = new Date(now);
     midnight.setHours(24, 0, 0, 0);
     return Math.floor((midnight - now) / 1000);
@@ -21,18 +27,25 @@ const getSecondsUntilMidnight = () => {
 
 // GET /api/today - Get today's date in both AD and BS
 router.get('/today', cacheMiddleware(getSecondsUntilMidnight), asyncHandler(async (req, res) => {
-    const today = new Date();
+    // Get time in Nepal
+    const today = getNepalTime();
     const bsDate = convertADtoBS(today);
+
+    // Format date manually to avoid timezone shifts when using toISOString() on a shifted Date object
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
 
     res.json({
         success: true,
         data: {
             ad: {
-                year: today.getFullYear(),
-                month: today.getMonth() + 1,
-                day: today.getDate(),
+                year: year,
+                month: parseInt(month),
+                day: parseInt(day),
                 weekday: today.toLocaleDateString('en-US', { weekday: 'long' }),
-                date: today.toISOString().split('T')[0]
+                date: dateString
             },
             bs: bsDate
         }
