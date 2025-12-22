@@ -39,7 +39,9 @@ const cacheMiddleware = (duration = cacheTTL) => {
 
         // Override json method to cache response
         res.json = (body) => {
-            cache.set(key, body, duration);
+            // Calculate TTL if duration is a function, otherwise use value
+            const ttl = typeof duration === 'function' ? duration() : duration;
+            cache.set(key, body, ttl);
             res.set('X-Cache', 'MISS');
             return originalJson(body);
         };

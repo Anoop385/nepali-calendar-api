@@ -11,10 +11,16 @@ const asyncHandler = (fn) => (req, res, next) => {
 };
 
 // Apply caching to all GET routes
-router.use(cacheMiddleware());
+// Helper to calculate seconds until next midnight
+const getSecondsUntilMidnight = () => {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    return Math.floor((midnight - now) / 1000);
+};
 
 // GET /api/today - Get today's date in both AD and BS
-router.get('/today', asyncHandler(async (req, res) => {
+router.get('/today', cacheMiddleware(getSecondsUntilMidnight), asyncHandler(async (req, res) => {
     const today = new Date();
     const bsDate = convertADtoBS(today);
 
@@ -34,7 +40,7 @@ router.get('/today', asyncHandler(async (req, res) => {
 }));
 
 // GET /api/convert/ad-to-bs?date=YYYY-MM-DD
-router.get('/convert/ad-to-bs', strictLimiter, asyncHandler(async (req, res) => {
+router.get('/convert/ad-to-bs', cacheMiddleware(), strictLimiter, asyncHandler(async (req, res) => {
     const { date } = req.query;
 
     if (!date) {
@@ -63,7 +69,7 @@ router.get('/convert/ad-to-bs', strictLimiter, asyncHandler(async (req, res) => 
 }));
 
 // GET /api/calendar/bs?year=YYYY&month=MM
-router.get('/calendar/bs', asyncHandler(async (req, res) => {
+router.get('/calendar/bs', cacheMiddleware(), asyncHandler(async (req, res) => {
     const year = parseInt(req.query.year);
     const month = parseInt(req.query.month);
 
@@ -92,7 +98,7 @@ router.get('/calendar/bs', asyncHandler(async (req, res) => {
 }));
 
 // GET /api/convert/bs-to-ad?year=YYYY&month=MM&day=DD
-router.get('/convert/bs-to-ad', strictLimiter, asyncHandler(async (req, res) => {
+router.get('/convert/bs-to-ad', cacheMiddleware(), strictLimiter, asyncHandler(async (req, res) => {
     const year = parseInt(req.query.year);
     const month = parseInt(req.query.month);
     const day = parseInt(req.query.day);
