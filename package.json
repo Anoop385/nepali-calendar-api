@@ -1,14 +1,24 @@
 {
   "name": "nepali_calander",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "2.1.0",
+  "description": "Nepali Calendar REST API - Accurate AD to BS conversion",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
   },
-  "keywords": [],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "nepali",
+    "calendar",
+    "bikram-sambat",
+    "date-conversion",
+    "api"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",

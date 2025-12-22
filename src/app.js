@@ -14,14 +14,6 @@ app.use(express.json());
 // Apply rate limiting to all API routes
 app.use('/api', apiLimiter);
 
-// Request logging in development
-if (process.env.NODE_ENV === 'development') {
-    app.use((req, res, next) => {
-        console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-        next();
-    });
-}
-
 // Routes
 app.use('/api', calendarRoutes);
 
