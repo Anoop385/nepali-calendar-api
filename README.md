@@ -38,7 +38,9 @@ Start the server:
 node src/server.js
 ```
 
-API base URL: `http://localhost:3000`
+**Production API:** `https://nepali-calendar-api-n1vo.onrender.com`
+
+**Local Development:** `http://localhost:3000`
 
 ---
 
@@ -52,7 +54,7 @@ Returns the current date in both AD and BS formats.
 
 **Example Request:**
 ```bash
-curl "http://localhost:3000/api/today"
+curl "https://nepali-calendar-api-n1vo.onrender.com/api/today"
 ```
 
 **Example Response:**
@@ -91,7 +93,7 @@ Converts a Gregorian (AD) date to Nepali (BS) date.
 
 **Example Request:**
 ```bash
-curl "http://localhost:3000/api/convert/ad-to-bs?date=2024-12-07"
+curl "https://nepali-calendar-api-n1vo.onrender.com/api/convert/ad-to-bs?date=2024-12-07"
 ```
 
 **Example Response:**
@@ -131,7 +133,7 @@ Converts a Nepali (BS) date to Gregorian (AD) date.
 
 **Example Request:**
 ```bash
-curl "http://localhost:3000/api/convert/bs-to-ad?year=2081&month=8&day=22"
+curl "https://nepali-calendar-api-n1vo.onrender.com/api/convert/bs-to-ad?year=2081&month=8&day=22"
 ```
 
 **Example Response:**
@@ -169,7 +171,7 @@ Returns calendar information for a specific BS month.
 
 **Example Request:**
 ```bash
-curl "http://localhost:3000/api/calendar/bs?year=2081&month=8"
+curl "https://nepali-calendar-api-n1vo.onrender.com/api/calendar/bs?year=2081&month=8"
 ```
 
 **Example Response:**
